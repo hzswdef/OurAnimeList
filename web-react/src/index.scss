@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Nunito";
+  src: url("src/fonts/Nunito.ttf");
+}
+
+.nunito-400 {
+  font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.nunito-700 {
+  font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+:root {
+  font-family: "Nunito", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --toastify-color-success: #10b981;
+}
+
+html {
+  @apply w-full h-full m-0 p-0;
+}
+
+body,
+#root {
+  @apply min-w-full min-h-full m-0 p-0;
+}
+
+body {
+  font-family: "Nunito", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  @apply bg-neutral-920;
+}

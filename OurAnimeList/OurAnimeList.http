@@ -1,0 +1,57 @@
+@OurAnimeList_HostAddress = http://localhost:5000
+
+### GET All animes.
+GET {{OurAnimeList_HostAddress}}/api/anime
+Content-Type: application/json
+
+### GET Individual anime by ID.
+GET {{OurAnimeList_HostAddress}}/api/anime/1
+Content-Type: application/json
+
+### POST Create new anime.
+POST {{OurAnimeList_HostAddress}}/api/anime
+Content-Type: application/json
+
+{
+  "myAnimeListId": 21,
+  "watchingStatus": 1,
+  "description": "Super cool description.",
+  "authorId": 1,
+  "authoredOn": 1337
+}
+
+### POST Create new anime from MyAnimeList by specifing MyAnimeList's Anime ID and the Anime watching status in params.
+POST {{OurAnimeList_HostAddress}}/api/anime/from-myanimelist?id=21&status=0
+
+### PATCH Existing anime.
+PATCH {{OurAnimeList_HostAddress}}/api/anime
+Content-Type: application/json
+
+{
+  "id": 1,
+  "watchingStatus": 2
+}
+
+### DELETE Anime by ID.
+DELETE {{OurAnimeList_HostAddress}}/api/anime/1
+
+### GET Search animes on MyAnimeList by title.
+GET {{OurAnimeList_HostAddress}}/api/myanimelist/search/demon slayer
+Content-Type: application/json
+
+### GET Current User.
+GET {{OurAnimeList_HostAddress}}/api/user
+Content-Type: application/json
+
+### GET User by ID.
+GET {{OurAnimeList_HostAddress}}/api/user/1
+Content-Type: application/json
+
+### GET Auth by Google access token.
+POST {{OurAnimeList_HostAddress}}/api/user/auth/google
+Content-Type: application/json
+Accept: application/json
+
+{
+  "accessToken": "ACCESS_TOKEN"
+}

@@ -1,0 +1,11 @@
+.anime-item-menu.MuiMenu-root {
+  > .MuiPaper-root {
+    @apply bg-neutral-900;
+
+    > ul.MuiMenu-list {
+      li.MuiMenuItem-root {
+        @apply text-zinc-50;
+      }
+    }
+  }
+}

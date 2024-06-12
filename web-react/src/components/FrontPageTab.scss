@@ -1,0 +1,7 @@
+.tab-item.MuiButtonBase-root {
+  @apply hover:bg-zinc-50/[.05];
+
+  .MuiTouchRipple-root {
+    @apply text-zinc-50;
+  }
+}

@@ -1,0 +1,25 @@
+.search {
+  .search-autocomplete {
+    .MuiFormLabel-root {
+      @apply text-stone-500;
+    }
+
+    .MuiFormControl-root {
+      .MuiInputBase-root {
+        .MuiOutlinedInput-notchedOutline {
+          @apply border-stone-500 rounded-full;
+        }
+
+        .MuiAutocomplete-endAdornment {
+          button.MuiButtonBase-root {
+            @apply transform-none;
+
+            svg.MuiSvgIcon-root {
+              @apply text-stone-500;
+            }
+          }
+        }
+      }
+    }
+  }
+}

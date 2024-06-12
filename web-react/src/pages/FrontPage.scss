@@ -1,0 +1,37 @@
+.frontpage {
+  .frontpage-content-enter {
+    @apply opacity-0;
+  }
+  .frontpage-content-enter-active {
+    @apply opacity-100 translate-x-0 duration-1000;
+  }
+  .frontpage-content-exit-active {
+    @apply opacity-100 duration-1000;
+  }
+
+  @apply min-h-full;
+
+  .MuiBox-root {
+    @apply min-h-full;
+
+    .MuiTabs-root {
+      @apply bg-neutral-920;
+
+      .MuiTabs-flexContainer {
+        @apply bg-neutral-920;
+
+        > button[role="tab"] {
+          @apply font-nunito text-stone-500 normal-case;
+
+          &[aria-selected="true"] {
+            @apply text-violet-400;
+          }
+        }
+      }
+
+      .MuiTabs-indicator {
+        @apply bg-violet-400;
+      }
+    }
+  }
+}

@@ -1,0 +1,2 @@
+[*.cs]
+auto_dto.debounce.enabled = false

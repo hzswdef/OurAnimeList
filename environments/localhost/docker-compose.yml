@@ -1,0 +1,21 @@
+version: "3.3"
+
+services:
+  
+  mysql:
+    image: mysql:8.0.37-debian
+    container_name: "${PROJECT_NAME}_mysql"
+    restart: always
+    command: --default-authentication-plugin=caching_sha2_password
+    environment:
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_USER: $MYSQL_USER
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_ROOT_PASSWORD: "root"
+    ports:
+      - "3306:3306"
+    volumes:
+      - code:/var/lib/mysql
+
+volumes:
+  code:

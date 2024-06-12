@@ -1,0 +1,19 @@
+﻿{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "MYANIMELIST_CLIENT_ID": "cfa35874b707f5502bf003afc9a547b7",
+        "MYSQL_DATABASE": "ouranimelist",
+        "MYSQL_USER": "ouranimelist",
+        "MYSQL_PASSWORD": "ouranimelist"
+      }
+    }
+  }
+}

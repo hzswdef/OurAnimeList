@@ -1,0 +1,43 @@
+version: "3.3"
+
+services:
+  
+  dotnet:
+    image: bitnami/dotnet-sdk:8.0.300
+    container_name: "${PROJECT_NAME}_dotnet"
+    restart: unless-stopped
+    working_dir: /dotnet-app
+    user: hzswdef
+    command: >
+      /bin/sh -c "dotnet user-secrets init --project OurAnimeList
+      && dotnet user-secrets set "MyAnimeList:ClientId" "$MYANIMELIST_CLIENT_ID" --project OurAnimeList
+      && dotnet user-secrets set "Jwt:Key" "$JWT_KEY" --project OurAnimeList
+      && dotnet user-secrets set "Jwt:Issuer" "$JWT_ISSUER" --project OurAnimeList
+      && dotnet user-secrets set "Jwt:Audience" "$JWT_AUDIENCE" --project OurAnimeList
+      && dotnet publish -c release -r linux-x64 --self-contained /p:PublishSingleFile=true
+      && mkdir -p /app/.build
+      && cp -r OurAnimeList/bin/Release/net8.0/linux-x64/publish /app/.build"
+    volumes:
+      - ../../:/dotnet-app
+    environment:
+      MYANIMELIST_CLIENT_ID: $MYANIMELIST_CLIENT_ID
+      JWT_KEY: $JWT_KEY
+      JWT_ISSUER: $JWT_ISSUER
+      JWT_AUDIENCE: $JWT_AUDIENCE
+  
+  frontend:
+    image: node:18-alpine
+    container_name: "${PROJECT_NAME}_frontend"
+    restart: unless-stopped
+    working_dir: /app
+    command: >
+      /bin/sh -c "npm install && npm run build"
+    volumes:
+      - ../../web-react:/app
+    environment:
+      VITE_SITE_NAME: $VITE_SITE_NAME
+      VITE_BACKEND_BASE_URL: $VITE_BACKEND_BASE_URL
+      VITE_GOOGLE_OAUTH_CLIENT_ID: $VITE_GOOGLE_OAUTH_CLIENT_ID
+
+volumes:
+  mysql:
