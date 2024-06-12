@@ -8,13 +8,11 @@ The following set up instructions is written for the Linux systems.
 
 ### BackEnd set up
 ```bash
-# MyAnimeList Client ID here: https://myanimelist.net/apiconfig
-dotnet user-secrets set "MyAnimeList:ClientId" "MYANIMELIST_CLIENT_ID" --project OurAnimeList
-
-# JWT
-dotnet user-secrets set "Jwt:Key" "SOMETHING_RANDOM" --project OurAnimeList
-dotnet user-secrets set "Jwt:Issuer" "http://localhost:5000" --project OurAnimeList
-dotnet user-secrets set "Jwt:Audience" "http://localhost:5173" --project OurAnimeList
+# Configure app secrets file: secrets.json
+cd OurAnimeList/
+cp secrets.example.json secrets.json
+nano secrets.json
+cd ..
 
 # Up MySQL database container for the .NET app
 cp ./environments/localhost/.env.example ./environments/localhost/.env

@@ -7,15 +7,14 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OurAnimeList.Auth;
 using OurAnimeList.Contexts;
-using OurAnimeList.Helpers;
 using OurAnimeList.Middlewares;
 
-IConfigurationRoot config = new ConfigurationBuilder()
-    .AddUserSecrets<Program>()
-    .Build();
-new UserSecretsValidation().Validate(config);
-
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration
+    // .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("secrets.json")
+    .Build();
 
 builder.Services.AddMvc();
 builder.Services.AddEndpointsApiExplorer();
@@ -29,7 +28,7 @@ builder.Services.AddTransient<JwtGenerateService>();
 builder.Services.AddHttpClient("MyAnimeList", client =>
 {
     client.BaseAddress = new Uri("https://api.myanimelist.net");
-    client.DefaultRequestHeaders.Add("X-MAL-CLIENT-ID", config["MyAnimeList:ClientId"]!);
+    client.DefaultRequestHeaders.Add("X-MAL-CLIENT-ID", builder.Configuration["MyAnimeList:ClientId"]!);
     client.DefaultRequestHeaders.Accept.Add(
         new MediaTypeWithQualityHeaderValue("application/json"));
 });
@@ -49,10 +48,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
              ValidateAudience = true,
              ValidateLifetime = true,
              ValidateIssuerSigningKey = true,
-             ValidIssuer = config["Jwt:Issuer"]!,
-             ValidAudience = config["Jwt:Audience"]!,
+             ValidIssuer = builder.Configuration["Jwt:Issuer"]!,
+             ValidAudience = builder.Configuration["Jwt:Audience"]!,
              IssuerSigningKey = new SymmetricSecurityKey(
-                 Encoding.UTF8.GetBytes(config["Jwt:Key"]!)),
+                 Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)),
              ClockSkew = TimeSpan.Zero
          };
     });
