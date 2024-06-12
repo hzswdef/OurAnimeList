@@ -7,12 +7,15 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OurAnimeList.Auth;
 using OurAnimeList.Contexts;
+using OurAnimeList.Helpers;
 using OurAnimeList.Middlewares;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 IConfigurationRoot config = new ConfigurationBuilder()
     .AddUserSecrets<Program>()
     .Build();
+new UserSecretsValidation().Validate(config);
+
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMvc();
 builder.Services.AddEndpointsApiExplorer();
