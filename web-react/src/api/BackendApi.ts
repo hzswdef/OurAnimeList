@@ -2,8 +2,6 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
 import Anime from "@interfaces/Anime";
 
-const backendBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
-
 interface BackendApiRequestOptions {
   auth?: boolean;
 }
@@ -12,6 +10,7 @@ class BackendApi {
   private readonly instance: AxiosInstance;
 
   public constructor() {
+    const backendBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
     this.instance = axios.create({
       baseURL: backendBaseUrl + "/api",
       timeout: 15000,
@@ -35,7 +34,7 @@ class BackendApi {
   private axiosConfig(
     config: AxiosRequestConfig | undefined = undefined,
     options: BackendApiRequestOptions,
-  ) {
+  ): AxiosRequestConfig {
     let _config = config ?? {};
 
     // Don't specify jwt token if auth is disabled.
@@ -49,7 +48,7 @@ class BackendApi {
     return _config;
   }
 
-  private async get(
+  private get(
     endpoint: string,
     config: AxiosRequestConfig | undefined = undefined,
     options: BackendApiRequestOptions = {},
@@ -59,7 +58,7 @@ class BackendApi {
     return this.instance.get(endpoint, _config);
   }
 
-  private async post(
+  private post(
     endpoint: string,
     data = {},
     config: AxiosRequestConfig | undefined = undefined,
@@ -70,7 +69,7 @@ class BackendApi {
     return this.instance.post(endpoint, data, _config);
   }
 
-  private async patch(
+  private patch(
     endpoint: string,
     data = {},
     config: AxiosRequestConfig | undefined = undefined,
@@ -81,7 +80,7 @@ class BackendApi {
     return this.instance.patch(endpoint, data, _config);
   }
 
-  private async delete(
+  private delete(
     endpoint: string,
     config: AxiosRequestConfig | undefined = undefined,
     options: BackendApiRequestOptions = {},
@@ -91,19 +90,19 @@ class BackendApi {
     return this.instance.delete(endpoint, _config);
   }
 
-  public async getAnime(): Promise<AxiosResponse> {
+  public getAnime(): Promise<AxiosResponse> {
     return this.get("/anime");
   }
 
-  public async getAnimeById(id: number | string): Promise<AxiosResponse> {
+  public getAnimeById(id: number | string): Promise<AxiosResponse> {
     return this.get(`/anime/${id}`);
   }
 
-  public async createAnime(): Promise<AxiosResponse> {
+  public createAnime(): Promise<AxiosResponse> {
     return this.post("/anime");
   }
 
-  public async createAnimeFromMyAnimeList(
+  public createAnimeFromMyAnimeList(
     id: Anime["myAnimeListId"],
     watchingStatus: Anime["watchingStatus"],
   ): Promise<AxiosResponse> {
@@ -117,32 +116,32 @@ class BackendApi {
     return this.post("/anime/from-myanimelist", {}, config);
   }
 
-  public async patchAnime(item: Anime): Promise<AxiosResponse> {
+  public patchAnime(item: Anime): Promise<AxiosResponse> {
     return this.patch("/anime", item);
   }
 
-  public async deleteAnime(id: number | string): Promise<AxiosResponse> {
+  public deleteAnime(id: number | string): Promise<AxiosResponse> {
     return this.delete(`/anime/${id}`);
   }
 
-  public async searchOnMyAnimeList(text: string): Promise<AxiosResponse> {
+  public searchOnMyAnimeList(text: string): Promise<AxiosResponse> {
     return this.get(`/myanimelist/search/${text}`);
   }
 
-  public async getCurrentUser(): Promise<AxiosResponse> {
+  public getCurrentUser(): Promise<AxiosResponse> {
     return this.get("/user");
   }
 
-  public async getUserById(id: number | string): Promise<AxiosResponse> {
+  public getUserById(id: number | string): Promise<AxiosResponse> {
     return this.get(`/user/${id}`);
   }
 
-  public async userGoogleLogin(accessToken: string): Promise<AxiosResponse> {
+  public userGoogleLogin(accessToken: string): Promise<AxiosResponse> {
     const data = {
       accessToken: accessToken,
     };
 
-    return this.post(`/user/auth/google`, data, {}, { auth: false });
+    return this.post("/user/auth/google", data, {}, { auth: false });
   }
 }
 

@@ -53,7 +53,7 @@ public class AuthController : ControllerBase
         if (!response.IsSuccessStatusCode)
         {
             _logger.LogWarning("Failed to validate Google access token.");
-            return Forbid();
+            return Problem("Failed to validate Google User information.");
         }
         
         GoogleApiUserInfoResponse? data = JsonConvert.DeserializeObject<GoogleApiUserInfoResponse>(
@@ -61,7 +61,7 @@ public class AuthController : ControllerBase
         if (data == null)
         {
             _logger.LogWarning("Failed to deserialize Google User Info response.");
-            return Forbid();
+            return Problem("Failed to validate Google User information.");
         }
         
         User? user = await _databaseContext

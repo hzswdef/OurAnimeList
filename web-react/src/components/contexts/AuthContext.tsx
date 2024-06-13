@@ -3,7 +3,7 @@ import { ReactNode, useEffect, useState } from "react";
 import AuthContext from "@contexts/AuthContext";
 import BackendApi from "@api/BackendApi";
 import User from "@interfaces/User";
-import { toast } from "react-toastify";
+import ApiErrorHandle from "@helpers/ApiErrorHandle";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -14,9 +14,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     localStorage.getItem("token") || undefined,
   );
   const [user, setUser] = useState<User | undefined>(undefined);
-  const [dataIsLoading, setDataIsLoading] = useState<boolean>(() => {
-    return !!token;
-  });
+  const [dataIsLoading, setDataIsLoading] = useState<boolean>(!!token);
 
   useEffect(() => {
     if (token) {
@@ -27,14 +25,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
           setDataIsLoading(false);
         })
         .catch((error) => {
-          switch (error.code) {
-            case 401:
-              setToken(undefined);
-              break;
-            case "ERR_NETWORK":
-              toast.error("Backend unavailable...");
-              break;
-          }
+          ApiErrorHandle(error);
+          localStorage.removeItem("token");
           setDataIsLoading(false);
         });
     }

@@ -12,7 +12,6 @@ using OurAnimeList.Middlewares;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration
-    // .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("secrets.json")
     .Build();
 
@@ -21,8 +20,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-builder.Services.AddDbContext<DatabaseContext>();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddDbContext<DatabaseContext>();
 builder.Services.AddTransient<CurrentUserService>();
 builder.Services.AddTransient<JwtGenerateService>();
 builder.Services.AddHttpClient("MyAnimeList", client =>
@@ -38,7 +37,12 @@ builder.Services.AddHttpClient("GoogleApi", client =>
     client.DefaultRequestHeaders.Accept.Add(
         new MediaTypeWithQualityHeaderValue("application/json"));
 });
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
     .AddJwtBearer(options =>
     {
         options.SaveToken = true;

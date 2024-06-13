@@ -1,9 +1,9 @@
 import { TokenResponse, useGoogleLogin } from "@react-oauth/google";
-import { toast } from "react-toastify";
 import { Button } from "@mui/material";
 
 import useAuth from "@hooks/useAuth";
 import BackendApi from "@api/BackendApi";
+import ApiErrorHandle from "@helpers/ApiErrorHandle";
 
 import GoogleIcon from "@mui/icons-material/Google";
 
@@ -18,14 +18,12 @@ const Login = () => {
   const onSuccessLogin = (tokenResponse: TokenResponse) => {
     new BackendApi()
       .userGoogleLogin(tokenResponse.access_token)
-      .then((response) => {
-        console.log(response);
-        if (response.status !== 200 || !response.data?.token) {
-          return toast.error("Failed to Sign In.");
-        }
-
-        login(response.data.token);
-      });
+      .then((response) => login(response.data.token))
+      .catch((error) =>
+        ApiErrorHandle(error, {
+          403: "You're not whitelisted.",
+        }),
+      );
   };
 
   return (
